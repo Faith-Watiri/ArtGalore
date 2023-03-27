@@ -1,0 +1,2 @@
+# ArtGalore
+School Project
