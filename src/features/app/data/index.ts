@@ -13,7 +13,7 @@ export const categories = [
     name: 'Painting',
     image: Painting,
     imgHeight: 300,
-    imgWidth: 300,
+    imgWidth: width,
   },
   {
     id: 2,

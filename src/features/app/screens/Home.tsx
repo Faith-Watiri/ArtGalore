@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable prettier/prettier */
 import {
   View,
   Text,
@@ -17,37 +18,25 @@ import {useNavigation} from '@react-navigation/native';
 import {categories} from '../data';
 
 export function HomeScreen() {
-  const {width} = useWindowDimensions();
-  const navigation = useNavigation();
-  const [numColumns, setNumColumns] = useState(2);
-  const [key, setKey] = useState('default');
+  // const {width} = useWindowDimensions();
 
-  useEffect(() => {
-    if (width >= 300) {
-      setNumColumns(1);
-      setKey('one-column');
-    } else {
-      setNumColumns(2);
-      setKey('two-column');
-    }
-  }, [width]);
+  // const navigation = useNavigation();
+
+  const [key] = useState('default');
 
   return (
     <AppLayout>
       <View className="my-auto py-5">
-        {/* <View className="flex-row justify-between items-center px-4 py-2">
-          <Text className="text-2xl font-bold text-tertiary">Categories</Text>
-          <Icon name="more-vertical" size={20} color="#000" />
-        </View> */}
-
         <FlatList
           data={categories}
-          numColumns={numColumns}
+          numColumns={2}
           horizontal={false}
           showsHorizontalScrollIndicator={false}
           keyExtractor={item => item.id.toString()}
           key={key}
           renderItem={({item}) => {
+            // const numColumns = item.imgWidth < 300 ? 1 : 2;
+
             return (
               <TouchableOpacity className="px-4 py-5 flex-col items-start my-auto justify-start">
                 <View className="bg-white rounded-lg">
