@@ -1,7 +1,14 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {View, Text, FlatList, Image, TouchableOpacity} from 'react-native';
-import React from 'react';
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  useWindowDimensions,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {AppLayout} from '../components';
 
 import Icon from 'react-native-vector-icons/Feather';
@@ -10,7 +17,21 @@ import {useNavigation} from '@react-navigation/native';
 import {categories} from '../data';
 
 export function HomeScreen() {
+  const {width} = useWindowDimensions();
   const navigation = useNavigation();
+  const [numColumns, setNumColumns] = useState(2);
+  const [key, setKey] = useState('default');
+
+  useEffect(() => {
+    if (width >= 300) {
+      setNumColumns(1);
+      setKey('one-column');
+    } else {
+      setNumColumns(2);
+      setKey('two-column');
+    }
+  }, [width]);
+
   return (
     <AppLayout>
       <View className="my-auto py-5">
@@ -21,13 +42,12 @@ export function HomeScreen() {
 
         <FlatList
           data={categories}
-          numColumns={2}
+          numColumns={numColumns}
           horizontal={false}
           showsHorizontalScrollIndicator={false}
           keyExtractor={item => item.id.toString()}
+          key={key}
           renderItem={({item}) => {
-            const numColumns = item.imgWidth >= 300 ? 1 : 2;
-
             return (
               <TouchableOpacity className="px-4 py-5 flex-col items-start my-auto justify-start">
                 <View className="bg-white rounded-lg">
