@@ -1,6 +1,6 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {AppStack} from './src/stack';
+import {AuthStack} from './src/stack';
 import {StatusBar} from 'react-native';
 
 const App = () => {
@@ -11,7 +11,8 @@ const App = () => {
         animated={true}
         backgroundColor="#FFFAF8"
       />
-      <AppStack />
+      <AuthStack />
+      {/* <AppStack /> */}
     </NavigationContainer>
   );
 };
