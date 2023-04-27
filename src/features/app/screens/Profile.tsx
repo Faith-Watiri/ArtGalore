@@ -30,7 +30,7 @@ export function ProfileScreen() {
         <Icon name='share-2' size={24} color='black' />
       </View>
 
-      <View>
+      <View className='flex-row my-5 jsutify-around w-full'>
         <PrimaryButton name='Followed' onPress={() => {}} />
         <SecondaryButton name='Message' onPress={() => {}} />
       </View>

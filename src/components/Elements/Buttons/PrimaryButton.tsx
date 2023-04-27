@@ -11,7 +11,7 @@ export function PrimaryButton({ onPress, name }: PrimaryButtonProps) {
   return (
     <Button
       onPress={onPress}
-      className='bg-primary w-full py-2 rounded-lg text-[16px]'
+      className='bg-primary w- py-2 rounded-lg text-[16px]'
       textColor='white'
 
     >{name}</Button>

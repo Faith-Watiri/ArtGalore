@@ -11,7 +11,7 @@ export function SecondaryButton({onPress, name}: SecondaryButtonProps) {
   return (
     <Button
         onPress={onPress}
-        className='bg-white border-primary w-full py-2 rounded-lg text-[16px]'
+        className='bg-white border-primary w- py-2 rounded-lg text-[16px]'
         textColor='#6F3744'
         
     >{name}</Button>
