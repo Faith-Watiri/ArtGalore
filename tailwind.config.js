@@ -7,6 +7,7 @@ module.exports = {
         primary: '#6F3744',
         secondary: '#FFFAF8',
         tertiary: '#090013',
+        giray: '#F9F9F9',
       },
     },
   },
