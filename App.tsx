@@ -1,11 +1,14 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { AuthStack } from './src/stack';
+import { AppStack, AuthStack } from './src/stack';
 import { StatusBar } from 'react-native';
 import { Provider } from 'react-redux';
 import store from './src/utlis/store';
+import { getObjectData } from './src/lib/helpers/storage.helper';
 
 const App = () => {
+  const token = getObjectData('AG_USER_TOKEN')
+
   return (
     <Provider store={store}>
       <NavigationContainer>
@@ -14,8 +17,8 @@ const App = () => {
           animated={true}
           backgroundColor="#FFFAF8"
         />
-        <AuthStack />
-        {/* <AppStack /> */}
+        {!token ? <AuthStack />
+          : <AppStack />}
       </NavigationContainer>
     </Provider>
   );
