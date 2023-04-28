@@ -1,15 +1,16 @@
-/* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
-import {View, Text, Image} from 'react-native';
-import React from 'react';
+import {View, Text, Image, FlatList} from 'react-native';
+import React, {useState} from 'react';
 import {AppLayout} from '../components';
 import Icon from 'react-native-vector-icons/Feather';
 import Icon2 from 'react-native-vector-icons/EvilIcons';
 
 import Digital from '../../../assets/digital.jpg';
 import {PrimaryButton, SecondaryButton} from '../../../components';
+import ArtCard from '../../../components/Elements/Cards/ArtCard';
 
 export function ProfileScreen() {
+  const [art, setArt] = useState([{}, {}, {}, {}, {}, {}, {}]);
   return (
     <AppLayout>
       {/* Top header */}
@@ -67,7 +68,7 @@ export function ProfileScreen() {
       </View>
 
       {/* ArtWork */}
-      <View>
+      <View className="">
         <View className="flex-row mt-5 items-center justify-between">
           <Text className="text-tertiary text-[25px] font-semibold">
             Artworks
@@ -80,6 +81,14 @@ export function ProfileScreen() {
         </View>
 
         {/* Art */}
+
+        <FlatList
+          data={art}
+          numColumns={2}
+          renderItem={() => <ArtCard />}
+          keyExtractor={item => item.toString()}
+          className="py-5 space-x-3 px-auto"
+        />
       </View>
     </AppLayout>
   );
