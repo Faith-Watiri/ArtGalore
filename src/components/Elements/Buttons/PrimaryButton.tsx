@@ -1,19 +1,23 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-import { Button } from 'react-native-paper';
+/* eslint-disable prettier/prettier */
+import React from 'react';
+import {Button} from 'react-native-paper';
 
 type PrimaryButtonProps = {
   onPress: () => void;
   name: string;
-}
+  width: string | number;
+};
 
-export function PrimaryButton({ onPress, name }: PrimaryButtonProps) {
+export function PrimaryButton({onPress, name, width}: PrimaryButtonProps) {
   return (
     <Button
       onPress={onPress}
-      className='bg-primary w- py-2 rounded-lg text-[16px]'
-      textColor='white'
-
-    >{name}</Button>
-  )
+      style={{
+        width: width,
+      }}
+      className={'bg-primary py-2 rounded-full text-[16px]'}
+      textColor="white">
+      {name}
+    </Button>
+  );
 }
