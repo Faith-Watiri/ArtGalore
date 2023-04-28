@@ -7,5 +7,5 @@ interface AppLayoutProps {
 }
 
 export function AppLayout({children}: AppLayoutProps) {
-  return <View className="flex-1 bg-[#FFFAF8]">{children}</View>;
+  return <View className="flex-1 bg-secondary px-5 py-4 w-screen">{children}</View>;
 }
