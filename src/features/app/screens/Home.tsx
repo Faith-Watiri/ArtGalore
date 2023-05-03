@@ -1,6 +1,5 @@
-/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable prettier/prettier */
+
 import {
   View,
   Text,
@@ -20,7 +19,7 @@ import {categories} from '../data';
 export function HomeScreen() {
   // const {width} = useWindowDimensions();
 
-  // const navigation = useNavigation();
+  const navigation = useNavigation();
 
   const [key] = useState('default');
 
@@ -38,7 +37,11 @@ export function HomeScreen() {
             // const numColumns = item.imgWidth < 300 ? 1 : 2;
 
             return (
-              <TouchableOpacity className="px-4 py-5 flex-col items-start my-auto justify-start">
+              <TouchableOpacity
+                className="px-4 py-5 flex-col items-start my-auto justify-start"
+                onPress={() =>
+                  navigation.navigate('Category', {data: item.name})
+                }>
                 <View className="bg-white rounded-lg">
                   <Image
                     source={item.image}

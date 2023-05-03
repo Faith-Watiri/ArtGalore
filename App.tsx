@@ -9,6 +9,8 @@ import { getObjectData } from './src/lib/helpers/storage.helper';
 const App = () => {
   const token = getObjectData('AG_USER_TOKEN')
 
+  console.log(token)
+
   return (
     <Provider store={store}>
       <NavigationContainer>
