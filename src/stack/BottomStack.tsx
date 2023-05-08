@@ -12,6 +12,7 @@ import {View} from 'react-native';
 
 import Icon from 'react-native-vector-icons/Feather';
 import FavoritesScreen from '../features/app/screens/Art/Favorites';
+import { UserProfile } from '../features/app/screens';
 
 const Tab = createBottomTabNavigator();
 
@@ -70,7 +71,7 @@ export function BottomStack() {
       />
       <Tab.Screen
         name="Profile"
-        component={ProfileScreen}
+        component={UserProfile}
         options={{
           tabBarIcon: () => <Icon name="user" size={20} color="#000" />,
         }}

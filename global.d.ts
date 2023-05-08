@@ -1,10 +1,11 @@
-import { Method } from "axios";
-export { }
+import {Method} from 'axios';
+export {};
 
 declare global {
-    type AxiosConfig = {
-        url: string,
-        method: Method,
-        data: object,
-    }
+  type AxiosConfig = {
+    bearerToken: any;
+    url: string;
+    method: Method;
+    data: object;
+  };
 }

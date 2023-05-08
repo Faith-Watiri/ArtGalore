@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {createSlice} from '@reduxjs/toolkit';
 
 export interface UserState {
   isLoggedIn: boolean;
@@ -9,13 +9,13 @@ export interface UserState {
 
 const initialState: UserState = {
   isLoggedIn: false,
-  email: "",
-  name: "",
-  role: "",
+  email: '',
+  name: '',
+  role: '',
 };
 
 export const authSlice = createSlice({
-  name: "userAuth",
+  name: 'userAuth',
   initialState,
   reducers: {
     setSignIn: (state, action) => {
@@ -24,24 +24,24 @@ export const authSlice = createSlice({
       state.name = action.payload.name;
       state.role = action.payload.role;
     },
-    setSignOut: (state) => {
-      state.email = "";
-      state.name = "";
-      state.role = "";
+    setSignOut: state => {
+      state.email = '';
+      state.name = '';
+      state.role = '';
       state.isLoggedIn = false;
     },
   },
 });
 
-export const { setSignIn, setSignOut } = authSlice.actions;
+export const {setSignIn, setSignOut} = authSlice.actions;
 
-export const selectIsLoggedIn = (state: { userAuth: { isLoggedIn: any } }) =>
+export const selectIsLoggedIn = (state: {userAuth: {isLoggedIn: any}}) =>
   state.userAuth.isLoggedIn;
-export const selectEmail = (state: { userAuth: { email: any } }) =>
+export const selectEmail = (state: {userAuth: {email: any}}) =>
   state.userAuth.email;
-export const selectName = (state: { userAuth: { name: any } }) =>
+export const selectName = (state: {userAuth: {name: any}}) =>
   state.userAuth.name;
-export const selectRole = (state: { userAuth: { role: any } }) =>
+export const selectRole = (state: {userAuth: {role: any}}) =>
   state.userAuth.role;
 
 export default authSlice.reducer;

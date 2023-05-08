@@ -1,13 +1,13 @@
 /* eslint-disable react-native/no-inline-styles */
 import {View, Text, Image, FlatList} from 'react-native';
 import React, {useState} from 'react';
-import {AppLayout} from '../components';
+import {AppLayout} from '../../components';
 import Icon from 'react-native-vector-icons/Feather';
 import Icon2 from 'react-native-vector-icons/EvilIcons';
 
-import Digital from '../../../assets/digital.jpg';
-import {PrimaryButton, SecondaryButton} from '../../../components';
-import ArtCard from '../../../components/Elements/Cards/ArtCard';
+import Digital from '../../../../assets/digital.jpg';
+import {PrimaryButton, SecondaryButton} from '../../../../components';
+import ArtCard from '../../../../components/Elements/Cards/ArtCard';
 
 export function ProfileScreen() {
   const [art, setArt] = useState([{}, {}, {}, {}, {}, {}, {}]);

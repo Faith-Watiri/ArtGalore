@@ -8,7 +8,7 @@ import { BASE_URL } from '../../../lib/constants';
 import { axiosReq } from '../../../utlis/axios';
 import { useDispatch } from 'react-redux';
 import { setSignIn } from '../slices/auth.slice';
-import { storeObjectData } from '../../../lib/helpers/storage.helper';
+import { storeObjectData, storeStringData } from '../../../lib/helpers/storage.helper';
 
 export function Login() {
   const navigation = useNavigation()
@@ -39,7 +39,7 @@ export function Login() {
     // console.log(login)
 
     if (login?.status === 201) {
-      storeObjectData(login?.data?.accessToken)
+      storeStringData(login?.data?.accessToken)
 
 
       ToastAndroid.showWithGravityAndOffset(

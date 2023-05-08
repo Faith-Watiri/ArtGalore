@@ -19,7 +19,7 @@ export function FormInput({ value, placeholder, label, onChangeText, secureTextE
                 onChangeText={onChangeText}
                 placeholder={placeholder}
                 secureTextEntry={secureTextEntry}
-                className='border-gray-400 placeholder:text-gray-900 mt-2 border bg-secondary rounded-lg text-gray-900 px-2'
+                className='border-gray-400 placeholder:text-gray-900 mt-2 border bg-secondary rounded-lg text-gray-900 px-2 w-full'
             />
         </View>
     )

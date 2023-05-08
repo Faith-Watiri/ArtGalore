@@ -15,17 +15,87 @@ import Icon from 'react-native-vector-icons/Feather';
 
 import {useNavigation} from '@react-navigation/native';
 import {categories} from '../data';
+import {BASE_URL} from '../../../lib/constants';
+import {axiosReq} from '../../../utlis/axios';
+import ArtCard from '../../../components/Elements/Cards/ArtCard';
+import {getObjectData} from '../../../lib/helpers/storage.helper';
+import {Loading} from '../../../components';
 
 export function HomeScreen() {
   // const {width} = useWindowDimensions();
+  const [art, setArt] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const navigation = useNavigation();
 
+  const token = getObjectData('AG_USER_TOKEN');
+
+  const config: AxiosConfig = {
+    url: `${BASE_URL}/art`,
+    method: 'GET',
+    data: art,
+    bearerToken:
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY4MzU3NTcwMCwiZXhwIjoxNjgzNTc5MzAwfQ.swc7-w_wxk1SKh7Hj4yf7nl1VHU2eUIm15-jvmCLfRo',
+  };
+
   const [key] = useState('default');
+
+  useEffect(() => {
+    const getArt = async () => {
+      const art = await axiosReq(config)
+        .then(res => {
+          // return res;
+          console.log(res.data);
+          setIsLoading(false);
+          setArt(res.data);
+        })
+        .catch(e => console.log(e));
+    };
+
+    getArt();
+  }, []);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <AppLayout>
-      <View className="my-auto py-5">
+      {/* ArtWork */}
+      <View className="">
+        <View className="flex-row mt-5 items-center justify-between">
+          <Text className="text-tertiary text-[25px] font-semibold">
+            Artworks
+          </Text>
+
+          <Text className="text-tertiary text-[16px] items-center justify-center">
+            <Icon name="filter" size={24} color={'black'} />
+            Filters
+          </Text>
+        </View>
+
+        {/* Art */}
+
+        <FlatList
+          data={art}
+          numColumns={2}
+          renderItem={({item}) => {
+            return (
+              <ArtCard
+                name={item?.art_name}
+                artist={item.artist}
+                price={item.price}
+                image={item.image}
+                onPress={() => navigation.navigate('Art', {data: item})}
+              />
+            );
+          }}
+          keyExtractor={item => item.toString()}
+          className="py-5 space-x-3 px-auto"
+        />
+      </View>
+
+      {/* <View className="my-auto py-5">
         <FlatList
           data={categories}
           numColumns={2}
@@ -61,7 +131,7 @@ export function HomeScreen() {
             index,
           })}
         />
-      </View>
+      </View> */}
     </AppLayout>
   );
 }
