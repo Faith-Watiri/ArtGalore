@@ -5,7 +5,7 @@ import {
   Text,
   FlatList,
   Image,
-  TouchableOpacity,
+  TouchableHighlight,
   useWindowDimensions,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
@@ -20,6 +20,8 @@ import {axiosReq} from '../../../utlis/axios';
 import ArtCard from '../../../components/Elements/Cards/ArtCard';
 import {getObjectData} from '../../../lib/helpers/storage.helper';
 import {Loading} from '../../../components';
+import {useSelector} from 'react-redux';
+import {selectCart} from '../../cart/slices/cart.slice';
 
 export function HomeScreen() {
   // const {width} = useWindowDimensions();
@@ -30,12 +32,27 @@ export function HomeScreen() {
 
   const token = getObjectData('AG_USER_TOKEN');
 
+  const cart = useSelector(selectCart);
+
+  console.log(cart.art_name);
+
+  const getTotalQuantity = () => {
+    let total = 0;
+
+    cart.forEach(item => {
+      console.log(item);
+      total += item.quantity;
+    });
+
+    return total;
+  };
+
   const config: AxiosConfig = {
     url: `${BASE_URL}/art`,
     method: 'GET',
     data: art,
     bearerToken:
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY4MzU3NTcwMCwiZXhwIjoxNjgzNTc5MzAwfQ.swc7-w_wxk1SKh7Hj4yf7nl1VHU2eUIm15-jvmCLfRo',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY4MzU3OTU0MSwiZXhwIjoxNjgzNTgzMTQxfQ.EMZ4K6za2MRJCrBGye4NxPAeCQt6bpIh5Bc4qyyPiGo',
   };
 
   const [key] = useState('default');
@@ -64,14 +81,21 @@ export function HomeScreen() {
       {/* ArtWork */}
       <View className="">
         <View className="flex-row mt-5 items-center justify-between">
-          <Text className="text-tertiary text-[25px] font-semibold">
-            Artworks
-          </Text>
+          <Text className="text-tertiary text-[25px] font-semibold">Art</Text>
 
-          <Text className="text-tertiary text-[16px] items-center justify-center">
-            <Icon name="filter" size={24} color={'black'} />
-            Filters
-          </Text>
+          <TouchableHighlight
+            onPress={() => navigation.navigate('Cart')}
+            className="relative border p-2 items-center justify-center rounded-full">
+            <View className="">
+              <Icon name="shopping-cart" size={24} color="black" />
+
+              <View className="absolute -top-4 -right-2 bg-primary rounded-full h-5 w-5 flex items-center justify-center">
+                <Text className="text-white text-[10px] font-semibold">
+                  {getTotalQuantity()}
+                </Text>
+              </View>
+            </View>
+          </TouchableHighlight>
         </View>
 
         {/* Art */}

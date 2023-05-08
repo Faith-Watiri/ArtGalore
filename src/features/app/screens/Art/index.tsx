@@ -4,6 +4,9 @@ import {AppLayout} from '../../components';
 import {PrimaryButton} from '../../../../components';
 import Icon from 'react-native-vector-icons/Entypo';
 import Icon2 from 'react-native-vector-icons/Feather';
+import {useDispatch} from 'react-redux';
+import {addToCart} from '../../../cart/slices/cart.slice';
+import {useNavigation} from '@react-navigation/native';
 
 type SingleArtProps = {
   route?: any;
@@ -12,21 +15,25 @@ type SingleArtProps = {
 export function SingleArt({route}: SingleArtProps) {
   const item = route.params.data;
 
+  const navigation = useNavigation();
+
+  const dispatch = useDispatch();
+
   console.log(item);
 
   return (
     <AppLayout>
       <View className="flex-row justify-between my-2">
-        <TouchableHighlight>
+        <TouchableHighlight onPress={() => navigation.gotBack()}>
           <Icon2 name="arrow-left" size={24} color="black" />
         </TouchableHighlight>
         <TouchableHighlight>
           <Icon name="menu" size={24} color="black" />
         </TouchableHighlight>
       </View>
-      <View className='relative'>
+      <View className="relative">
         <Image className="h-96 rounded-xl" source={{uri: item.image}} />
-        <TouchableHighlight className='absolute bg-white p-1 rounded-full right-2 top-2'>
+        <TouchableHighlight className="absolute bg-white p-1 rounded-full right-2 top-2">
           <Icon name="share" size={24} color="black" />
         </TouchableHighlight>
       </View>
@@ -58,7 +65,23 @@ export function SingleArt({route}: SingleArtProps) {
         </View>
       </View>
 
-      <PrimaryButton name="Add to Cart" onPress={() => {}} />
+      <PrimaryButton
+        name="Add to Cart"
+        onPress={() => {
+          dispatch(
+            addToCart({
+              id: item.id,
+              name: item.art_name,
+              price: item.price,
+              image: item.image,
+              artist: item.artist,
+              quantity: 1,
+            }),
+          );
+
+          navigation.navigate('Cart');
+        }}
+      />
 
       <View className="p-5 ">
         <Icon name="check" size={18} color="green">

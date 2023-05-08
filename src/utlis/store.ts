@@ -19,11 +19,12 @@ const persistConfig = {
   storage: AsyncStorage,
 };
 
-const persistedReducer = persistReducer(persistConfig, authSlice, cartSlice);
+const persistedReducer = persistReducer(persistConfig, authSlice);
 
 export const store = configureStore({
   reducer: {
     userAuth: persistedReducer,
+    cart: cartSlice,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
