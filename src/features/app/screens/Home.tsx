@@ -22,6 +22,7 @@ import {getObjectData} from '../../../lib/helpers/storage.helper';
 import {Loading} from '../../../components';
 import {useSelector} from 'react-redux';
 import {selectCart} from '../../cart/slices/cart.slice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export function HomeScreen() {
   // const {width} = useWindowDimensions();
@@ -30,11 +31,11 @@ export function HomeScreen() {
 
   const navigation = useNavigation();
 
-  const token = getObjectData('AG_USER_TOKEN');
+  const [token, setToken] = useState(null);
 
   const cart = useSelector(selectCart);
 
-  console.log(cart.art_name);
+  console.log(token);
 
   const getTotalQuantity = () => {
     let total = 0;
@@ -51,13 +52,18 @@ export function HomeScreen() {
     url: `${BASE_URL}/art`,
     method: 'GET',
     data: art,
-    bearerToken:
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY4MzU3OTU0MSwiZXhwIjoxNjgzNTgzMTQxfQ.EMZ4K6za2MRJCrBGye4NxPAeCQt6bpIh5Bc4qyyPiGo',
+    bearerToken: token,
   };
 
   const [key] = useState('default');
 
   useEffect(() => {
+    const checkToken = async () => {
+      const storedToken = await AsyncStorage.getItem('@access_token');
+      setToken(storedToken);
+      setIsLoading(false);
+    };
+
     const getArt = async () => {
       const art = await axiosReq(config)
         .then(res => {
@@ -69,8 +75,9 @@ export function HomeScreen() {
         .catch(e => console.log(e));
     };
 
+    checkToken();
     getArt();
-  }, []);
+  }, [token]);
 
   if (isLoading) {
     return <Loading />;

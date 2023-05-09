@@ -11,6 +11,7 @@ import {AppLayout} from '../../app/components';
 import Icon from 'react-native-vector-icons/Feather';
 import Bin from 'react-native-vector-icons/MaterialIcons';
 import {PrimaryButton} from '../../../components';
+import {useNavigation} from '@react-navigation/native';
 
 type CartItemProps = {
   id: string;
@@ -65,6 +66,8 @@ function CartItem({id, image, art_name, price, quantity = 0}: CartItemProps) {
 export function Cart() {
   const cart = useSelector(selectCart);
 
+  const navigation = useNavigation();
+
   const getTotal = () => {
     let totalQuantity = 0;
     let totalPrice = 0;
@@ -79,9 +82,16 @@ export function Cart() {
 
   return (
     <AppLayout>
-      <Text className="text-tertiary text-center text-xl font-bold">
-        Shopping Basket
-      </Text>
+      <View className="flex-row justify-between">
+        <TouchableHighlight
+          onPress={() => navigation.goBack()}
+          className="rounded-full p-1">
+          <Icon name="arrow-left" size={24} color="black" />
+        </TouchableHighlight>
+        <Text className="text-tertiary text-center text-xl font-bold">
+          Shopping Basket
+        </Text>
+      </View>
 
       <ScrollView className="py-7">
         {cart?.map((item: any) => (
@@ -108,7 +118,16 @@ export function Cart() {
         </View>
       </View>
 
-      <PrimaryButton name="Checkout" onPress={() => console.log('Checkout')} />
+      {getTotal().totalQuantity > 0 ? (
+        <PrimaryButton
+          name="Checkout"
+          onPress={() => navigation.navigate('Payment')}
+        />
+      ) : (
+        <Text className="text-tertiary text-center text-lg font-bold">
+          Your cart is empty
+        </Text>
+      )}
     </AppLayout>
   );
 }

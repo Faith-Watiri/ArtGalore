@@ -4,6 +4,8 @@ import {AppLayout} from '../../components/Layout';
 import Icon from 'react-native-vector-icons/Feather';
 import {FormInput, PrimaryButton} from '../../../../components';
 import {} from 'react-native-paper';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+
 
 export function AddArtScreen() {
   const postArt = () => {
