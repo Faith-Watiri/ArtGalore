@@ -12,6 +12,9 @@ import Icon from 'react-native-vector-icons/Feather';
 import Bin from 'react-native-vector-icons/MaterialIcons';
 import {PrimaryButton} from '../../../components';
 import {useNavigation} from '@react-navigation/native';
+import {useCreatePaymentIntentMutation} from '../../payment/slices/apiSlice';
+import {useStripe} from '@stripe/stripe-react-native';
+import { Alert } from 'react-native';
 
 type CartItemProps = {
   id: string;
@@ -65,6 +68,8 @@ function CartItem({id, image, art_name, price, quantity = 0}: CartItemProps) {
 
 export function Cart() {
   const cart = useSelector(selectCart);
+  const [createPaymentIntent] = useCreatePaymentIntentMutation();
+  const {initPaymentSheet, presentPaymentSheet} = useStripe();
 
   const navigation = useNavigation();
 
@@ -78,6 +83,38 @@ export function Cart() {
     });
 
     return {totalQuantity, totalPrice};
+  };
+
+  const onCheckout = async () => {
+    const response = await createPaymentIntent({
+      amount: 1000,
+    });
+    console.log(response);
+    if (response.error) {
+      Alert.alert('Something went wrong', response.error);
+      return;
+    }
+
+    // 2. Initialize the Payment sheet
+    const {error: paymentSheetError} = await initPaymentSheet({
+      merchantDisplayName: 'Example, Inc.',
+      paymentIntentClientSecret: response.data.paymentIntent,
+      defaultBillingDetails: {
+        name: 'Jane Doe',
+      },
+    });
+    if (paymentSheetError) {
+      Alert.alert('Something went wrong', paymentSheetError.message);
+      return;
+    }
+
+    // 3. Present the Payment Sheet from Stripe
+    const {error: paymentError} = await presentPaymentSheet();
+
+    if (paymentError) {
+      Alert.alert(`Error code: ${paymentError.code}`, paymentError.message);
+      return;
+    }
   };
 
   return (
@@ -119,10 +156,7 @@ export function Cart() {
       </View>
 
       {getTotal().totalQuantity > 0 ? (
-        <PrimaryButton
-          name="Checkout"
-          onPress={() => navigation.navigate('Payment')}
-        />
+        <PrimaryButton name="Checkout" onPress={onCheckout} />
       ) : (
         <Text className="text-tertiary text-center text-lg font-bold">
           Your cart is empty

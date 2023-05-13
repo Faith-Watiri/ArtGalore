@@ -112,7 +112,7 @@ export function UserProfile() {
           AsyncStorage.clear();
           navigation.reset({
             index: 0,
-            routes: [{name: 'Login'}],
+            routes: [{name: 'AuthStack'}],
           });
         }}>
         <Logout name="logout" size={24} color="black" className="mt-2">

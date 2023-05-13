@@ -13,6 +13,7 @@ import {
 } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import cartSlice from '../features/cart/slices/cart.slice';
+import {paymentSlice} from '../features/payment/slices/apiSlice';
 
 const persistConfig = {
   key: 'root',
@@ -25,13 +26,14 @@ export const store = configureStore({
   reducer: {
     userAuth: persistedReducer,
     cart: cartSlice,
+    paymentApi: paymentSlice.reducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }),
+    }).concat(paymentSlice.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
