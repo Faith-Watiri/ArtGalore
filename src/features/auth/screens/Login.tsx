@@ -51,6 +51,8 @@ export function Login() {
       console.log(login?.data?.accessToken)
       await AsyncStorage.setItem('@access_token', login?.data?.accessToken);
 
+      dispatch(setSignIn(true));
+
       ToastAndroid.showWithGravityAndOffset(
         'Logged in successfully!',
         ToastAndroid.BOTTOM,

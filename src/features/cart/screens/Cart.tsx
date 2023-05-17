@@ -14,7 +14,7 @@ import {PrimaryButton} from '../../../components';
 import {useNavigation} from '@react-navigation/native';
 import {useCreatePaymentIntentMutation} from '../../payment/slices/apiSlice';
 import {useStripe} from '@stripe/stripe-react-native';
-import { Alert } from 'react-native';
+import {Alert} from 'react-native';
 
 type CartItemProps = {
   id: string;
@@ -53,7 +53,7 @@ function CartItem({id, image, art_name, price, quantity = 0}: CartItemProps) {
           <TouchableHighlight onPress={() => dispatch(incrementQuantity(id))}>
             <Icon name="plus-circle" size={24} color="black" />
           </TouchableHighlight>
-          <Text>{quantity}</Text>
+          <Text className="text-tertiary">{quantity}</Text>
           <TouchableHighlight onPress={() => dispatch(decrementQuantity(id))}>
             <Icon name="minus-circle" size={24} color="black" />
           </TouchableHighlight>
@@ -87,24 +87,27 @@ export function Cart() {
 
   const onCheckout = async () => {
     const response = await createPaymentIntent({
-      amount: 1000,
+      amount: Math.floor(getTotal().totalPrice),
     });
     console.log(response);
     if (response.error) {
-      Alert.alert('Something went wrong', response.error);
+      Alert.alert('Something went wrong', JSON.stringify(response));
       return;
     }
 
     // 2. Initialize the Payment sheet
     const {error: paymentSheetError} = await initPaymentSheet({
-      merchantDisplayName: 'Example, Inc.',
+      merchantDisplayName: 'Art Galore',
       paymentIntentClientSecret: response.data.paymentIntent,
       defaultBillingDetails: {
         name: 'Jane Doe',
       },
     });
     if (paymentSheetError) {
-      Alert.alert('Something went wrong', paymentSheetError.message);
+      Alert.alert(
+        'Something went wrong',
+        JSON.stringify(paymentSheetError.message),
+      );
       return;
     }
 
@@ -112,7 +115,10 @@ export function Cart() {
     const {error: paymentError} = await presentPaymentSheet();
 
     if (paymentError) {
-      Alert.alert(`Error code: ${paymentError.code}`, paymentError.message);
+      Alert.alert(
+        `Error code: ${paymentError.code}`,
+        JSON.stringify(paymentError.message),
+      );
       return;
     }
   };

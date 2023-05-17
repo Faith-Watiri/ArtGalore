@@ -6,6 +6,7 @@ import {
   FlatList,
   Image,
   TouchableHighlight,
+  TouchableOpacity,
   useWindowDimensions,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
@@ -26,66 +27,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export function HomeScreen() {
   // const {width} = useWindowDimensions();
-  const [art, setArt] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const navigation = useNavigation();
-
-  const [token, setToken] = useState(null);
-
-  const cart = useSelector(selectCart);
-
-  console.log(token);
-
-  const getTotalQuantity = () => {
-    let total = 0;
-
-    cart.forEach(item => {
-      console.log(item);
-      total += item.quantity;
-    });
-
-    return total;
-  };
-
-  const config: AxiosConfig = {
-    url: `${BASE_URL}/art`,
-    method: 'GET',
-    data: art,
-    bearerToken: token,
-  };
-
-  const [key] = useState('default');
-
-  useEffect(() => {
-    const checkToken = async () => {
-      const storedToken = await AsyncStorage.getItem('@access_token');
-      setToken(storedToken);
-      setIsLoading(false);
-    };
-
-    const getArt = async () => {
-      const art = await axiosReq(config)
-        .then(res => {
-          // return res;
-          console.log(res.data);
-          setIsLoading(false);
-          setArt(res.data);
-        })
-        .catch(e => console.log(e));
-    };
-
-    checkToken();
-    getArt();
-  }, [token]);
-
-  if (isLoading) {
-    return <Loading />;
-  }
+  const navigation = useNavigation()
 
   return (
     <AppLayout>
-      {/* ArtWork */}
+      {/* ArtWork
       <View className="">
         <View className="flex-row mt-5 items-center justify-between">
           <Text className="text-tertiary text-[25px] font-semibold">Art</Text>
@@ -107,7 +53,7 @@ export function HomeScreen() {
 
         {/* Art */}
 
-        <FlatList
+      {/* <FlatList
           data={art}
           numColumns={2}
           renderItem={({item}) => {
@@ -124,25 +70,23 @@ export function HomeScreen() {
           keyExtractor={item => item.toString()}
           className="py-5 space-x-3 px-auto"
         />
-      </View>
+      </View>  */}
 
-      {/* <View className="my-auto py-5">
+      <View className="my-auto py-5">
         <FlatList
           data={categories}
           numColumns={2}
           horizontal={false}
           showsHorizontalScrollIndicator={false}
           keyExtractor={item => item.id.toString()}
-          key={key}
+          // key={key}
           renderItem={({item}) => {
-            // const numColumns = item.imgWidth < 300 ? 1 : 2;
+            const numColumns = item.imgWidth < 300 ? 1 : 2;
 
             return (
               <TouchableOpacity
                 className="px-4 py-5 flex-col items-start my-auto justify-start"
-                onPress={() =>
-                  navigation.navigate('Category', {data: item.name})
-                }>
+                onPress={() => navigation.navigate('Category', {data: item})}>
                 <View className="bg-white rounded-lg">
                   <Image
                     source={item.image}
@@ -162,7 +106,7 @@ export function HomeScreen() {
             index,
           })}
         />
-      </View> */}
+      </View>
     </AppLayout>
   );
 }
